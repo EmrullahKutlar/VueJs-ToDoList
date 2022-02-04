@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap");
+body {
+    font-family: "Montserrat", sans-serif;
+    background-color: #f9f9f9;
+}
+
+.navbar {
+    background-color: #1ea8e7;
+    height: 4.5rem;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    padding: 0 40px 0 40px;
+}
+
+.navbar-brand {
+    color: white !important;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.bi-check2-square {
+    color: white;
+    font-size: 28px;
+    margin-right: 10px;
+}
+
+
+/**/
+
+.tasks {
+    font-family: var(--font-heading);
+    font-size: 1.85em;
+    line-height: 1.2;
+    font-weight: 650;
+}
+
+.list-group-item {
+    border: none;
+    color: #1ea8e7;
+    background-color: #f9f9f9;
+}
+
+.list-icons {
+    margin-right: 7px;
+}
+
+.dropdown-toggle {
+    background-color: unset !important;
+    border: none !important;
+    border-color: unset !important;
+    color: #1ea8e7 !important;
+    box-shadow: none !important;
+    padding: 0;
+}
+
+.dropdown-toggle:hover {
+    background-color: unset;
+    border-color: unset !important;
+    box-shadow: none !important;
+    border: none;
+    color: black;
+}
+
+.dropdown-item {
+    font-size: 14px;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+.card-dropdown-menu {
+    transform: translate3d(-90%, 21px, 0px) !important;
+}
+
+@media only screen and (max-width: 353px) {
+    .addNew {
+        font-size: 11px;
+    }
+    .addNew svg {
+        width: 15px;
+        height: 15px;
+    }
+}

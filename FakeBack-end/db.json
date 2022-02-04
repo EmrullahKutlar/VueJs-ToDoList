@@ -1,0 +1,64 @@
+{
+  "tasks": [
+    {
+      "title": "Vue Js Projesi",
+      "description": "Bir to do list uygulamasi yapilacak.Bir to do list uygulamasi yapilacak.Bir to do list uygulamasi yapilacak.Bir to do list uygulamasi yapilacak.Bir to do list uygulamasi yapilacak.",
+      "is_completed": false,
+      "id": 1,
+      "tags": [
+        {
+          "personal": "Personal",
+          "urgent": "Urgent",
+          "list": "List"
+        }
+      ],
+      "created_at": "04.02.2022 , 16:51",
+      "updated_at": "04.02.2022 , 16:51"
+    },
+    {
+      "id": 2,
+      "title": "Vue Js Projesi",
+      "description": "Bir to do list uygulamasi yapilacak.Bir to do list uygulamasi yapilacak.Bir to do list uygulamasi yapilacak.Bir to do list uygulamasi yapilacak.Bir to do list uygulamasi yapilacak.",
+      "is_completed": false,
+      "tags": [
+        {
+          "personal": "Personal",
+          "urgent": "Urgent",
+          "list": "List"
+        }
+      ],
+      "created_at": "04.02.2022 , 16:51",
+      "updated_at": "04.02.2022 , 16:51"
+    },
+    {
+      "id": 3,
+      "title": "Vue Js Projesi",
+      "description": "Bir to do list uygulamasi yapilacak",
+      "is_completed": true,
+      "tags": [
+        {
+          "project": "Project",
+          "urgent": "Urgent",
+          "list": "List"
+        }
+      ],
+      "created_at": "04.02.2022 , 16:51",
+      "updated_at": "04.02.2022 , 16:51"
+    },
+    {
+      "id": 4,
+      "title": "Vue Js Projesi",
+      "description": "Bir to do list uygulamasi yapilacak",
+      "is_completed": false,
+      "tags": [
+        {
+          "project": "Project",
+          "personal": "Personal",
+          "urgent": "Urgent"
+        }
+      ],
+      "created_at": "04.02.2022 , 16:51",
+      "updated_at": "04.02.2022 , 16:51"
+    }
+  ]
+}
