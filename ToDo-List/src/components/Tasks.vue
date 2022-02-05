@@ -13,7 +13,10 @@
             id=""
             :set="task.is_completed"
             :checked="task.is_completed"
-            @click="changeStatus(task.id, task.is_completed)"
+            @click="
+              changeStatus(task.id, task.is_completed),
+                (task.is_completed = !task.is_completed)
+            "
           />
         </div>
         <div
@@ -32,35 +35,31 @@
           <p class="card-text" :class="{ completed: task.is_completed }">
             {{ task.description }}
           </p>
-          <div class="tags">
-            <div
-              v-for="tag in task.tags"
-              :key="tag"
-              class="d-flex justify-content-between"
-            >
+          <div class="tags d-flex">
+            <div v-for="tag in task.tags" :key="tag">
               <p
-                class="tag-project"
+                class="tag-project mr-3"
                 :class="{ completed: task.is_completed }"
                 v-if="tag.project"
               >
                 {{ tag.project }}
               </p>
               <p
-                class="tag-personal"
+                class="tag-personal mr-3"
                 :class="{ completed: task.is_completed }"
                 v-if="tag.personal"
               >
                 {{ tag.personal }}
               </p>
               <p
-                class="tag-urgent"
+                class="tag-urgent mr-3"
                 :class="{ completed: task.is_completed }"
                 v-if="tag.urgent"
               >
                 {{ tag.urgent }}
               </p>
               <p
-                class="tag-list"
+                class="tag-list mr-3"
                 :class="{ completed: task.is_completed }"
                 v-if="tag.list"
               >
@@ -143,79 +142,4 @@ export default {
 };
 </script>
 
-<style>
-.task-card {
-  box-shadow: 0 4px 10px rgb(0 0 0 / 3%) !important;
-  background: #ffff;
-  border-radius: 25px;
-  border: initial;
-}
-.done {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-}
-.done input {
-  width: 20px;
-  height: 20px;
-}
-.task-settings {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
-.card-title {
-  font-weight: 700;
-  font-size: 18px;
-  color: #1893cb;
-}
-.card-text {
-  font-weight: 600;
-  color: #767676;
-}
-.tag-project,
-.tag-personal,
-.tag-urgent,
-.tag-list {
-  padding: 0.3rem;
-  border-radius: 25px;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.tag-project {
-  border: 0.5px solid #1ea8e7;
-  color: #1ea8e7;
-}
-.tag-personal {
-  border: 1px solid #ebb71a;
-  color: #ebb71a;
-}
-.tag-urgent {
-  border: 1px solid #771a23;
-  color: #771a23;
-}
-.tag-list {
-  border: 1px solid #439b38;
-  color: #439b38;
-}
-.completed {
-  text-decoration: line-through;
-  color: darkgray;
-  border-color: darkgray;
-}
-@media (min-width: 992px) {
-  .task-card {
-    -ms-flex: 0 0 50%;
-    flex: 0 0 48%;
-    max-width: 50%;
-  }
-}
-@media (min-width: 1200px) {
-  .task-card {
-    -ms-flex: 0 0 33.333333%;
-    flex: 0 0 31.333333%;
-    max-width: 33.333333%;
-  }
-}
-</style>
+<style></style>
