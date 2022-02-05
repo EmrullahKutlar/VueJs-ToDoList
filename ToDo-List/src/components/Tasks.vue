@@ -1,6 +1,6 @@
 <template>
   <div
-    v-for="task in tasks"
+    v-for="(task, index) in tasks"
     :key="task"
     class="card col-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 task-card m-2"
   >
@@ -14,7 +14,7 @@
             :set="task.is_completed"
             :checked="task.is_completed"
             @click="
-              changeStatus(task.id, task.is_completed),
+              changeStatus(task.id, task.is_completed, index),
                 (task.is_completed = !task.is_completed)
             "
           />
@@ -22,7 +22,7 @@
         <div
           class="col mt-3"
           @click="
-            changeStatus(task.id, task.is_completed),
+            changeStatus(task.id, task.is_completed, index),
               (task.is_completed = !task.is_completed)
           "
         >
@@ -92,7 +92,14 @@
               </svg>
             </button>
             <div class="dropdown-menu card-dropdown-menu">
-              <a class="dropdown-item" href="#">Edit</a>
+              <button
+                type="button"
+                class="btn btn-primary dropdown-item"
+                data-toggle="modal"
+                data-target="#exampleModal"
+              >
+                Edit
+              </button>
               <a class="dropdown-item" href="#">Delete</a>
             </div>
           </div>
@@ -112,24 +119,27 @@ export default {
   },
   props: {
     tasks: Array,
+    isItAll: Boolean,
   },
   methods: {
-    changeStatus(id, iscompleted) {
-      console.log(id);
-      console.log(iscompleted);
-      if (iscompleted) {
+    changeStatus(id, iscompleted, index) {
+      if (!this.isItAll) {
         try {
           axios.patch("http://localhost:3000/tasks/" + id, {
-            is_completed: false,
+            is_completed: !iscompleted,
           });
           // JSON responses are automatically parsed.
         } catch (error) {
           console.log(error);
         }
+        setTimeout(() => {
+          // eslint-disable-next-line vue/no-mutating-props
+          this.tasks.splice(index, 1);
+        }, 500);
       } else {
         try {
           axios.patch("http://localhost:3000/tasks/" + id, {
-            is_completed: true,
+            is_completed: !iscompleted,
           });
           // JSON responses are automatically parsed.
         } catch (error) {
@@ -138,7 +148,6 @@ export default {
       }
     },
   },
-  computed: {},
 };
 </script>
 

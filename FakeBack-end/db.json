@@ -1,17 +1,68 @@
 {
   "tasks": [
     {
-      "title": "Vue.Js To Do List Yapimi",
-      "description": "Vue.Js kullanarak kendi To Do List uygulamamızı kodluyoruz.",
+      "title": "Vue.Js ile To Do List",
+      "description": "Vue.Js ile kendi To Do List uygulamamızı kodluyoruz",
       "tags": [
         {
           "personal": "Personal"
         }
       ],
       "is_completed": false,
-      "created_at": "05.02.2022  04:13:26",
-      "updated_at": "05.02.2022  04:13:26",
+      "created_at": "05.02.2022  22:16:47",
+      "updated_at": "05.02.2022  22:16:47",
       "id": 1
+    },
+    {
+      "title": "deneme",
+      "description": "deneme",
+      "tags": [
+        {
+          "project": "Project"
+        },
+        {
+          "personal": "Personal"
+        },
+        {
+          "urgent": "Urgent"
+        },
+        {
+          "list": "List"
+        }
+      ],
+      "is_completed": false,
+      "created_at": "05.02.2022  22:30:23",
+      "updated_at": "05.02.2022  22:30:23",
+      "id": 2
+    },
+    {
+      "title": "sadfsdfsd",
+      "description": "fsdfsdf",
+      "tags": [
+        {
+          "urgent": "Urgent"
+        }
+      ],
+      "is_completed": true,
+      "created_at": "05.02.2022  22:30:23",
+      "updated_at": "05.02.2022  22:30:23",
+      "id": 3
+    },
+    {
+      "title": "asdasd",
+      "description": "asdasd",
+      "tags": [
+        {
+          "project": "Project"
+        },
+        {
+          "urgent": "Urgent"
+        }
+      ],
+      "is_completed": true,
+      "created_at": "06.02.2022  01:32:04",
+      "updated_at": "06.02.2022  01:32:04",
+      "id": 4
     }
   ]
 }

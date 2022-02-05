@@ -41,7 +41,11 @@
       <div class="row col-12 d-flex">
         <div class="col-12 col-md-2">
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">
+            <li
+              class="list-group-item"
+              @click="getAllTasks"
+              :class="{ activeItem: activeAll }"
+            >
               <div class="d-flex align-items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +65,11 @@
                 <span>All</span>
               </div>
             </li>
-            <li class="list-group-item">
+            <li
+              class="list-group-item"
+              @click="getActiveTasks"
+              :class="{ activeItem: activeActive }"
+            >
               <div class="d-flex align-items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +87,11 @@
                 <span>Active</span>
               </div>
             </li>
-            <li class="list-group-item">
+            <li
+              class="list-group-item"
+              @click="getDonedTasks"
+              :class="{ activeItem: activeDone }"
+            >
               <div class="d-flex align-items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +111,7 @@
                 <span>Done</span>
               </div>
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item" :class="{ activeItem: activeTags }">
               <div class="d-flex align-items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -123,12 +135,17 @@
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
+                    :class="{ activeItem: activeTags }"
+                    @click="activeTags = !activeTags"
                   >
                     Tags
                   </button>
                   <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#"
-                      ><svg
+                    <button
+                      class="dropdown-item"
+                      @click="getSelectedTag($event)"
+                    >
+                      <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
                         height="16"
@@ -140,10 +157,13 @@
                         <path
                           d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
                         /></svg
-                      >Project</a
+                      >Project
+                    </button>
+                    <button
+                      class="dropdown-item"
+                      @click="getSelectedTag($event)"
                     >
-                    <a class="dropdown-item" href="#"
-                      ><svg
+                      <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
                         height="16"
@@ -155,10 +175,13 @@
                         <path
                           d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
                         /></svg
-                      >Personal</a
+                      >Personal
+                    </button>
+                    <button
+                      class="dropdown-item"
+                      @click="getSelectedTag($event)"
                     >
-                    <a class="dropdown-item" href="#"
-                      ><svg
+                      <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
                         height="16"
@@ -170,9 +193,13 @@
                         <path
                           d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
                         /></svg
-                      >Urgent</a
-                    ><a class="dropdown-item" href="#"
-                      ><svg
+                      >Urgent
+                    </button>
+                    <button
+                      class="dropdown-item"
+                      @click="getSelectedTag($event)"
+                    >
+                      <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
                         height="16"
@@ -184,13 +211,13 @@
                         <path
                           d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
                         /></svg
-                      >Lists</a
-                    >
+                      >List
+                    </button>
                   </div>
                 </div>
               </div>
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item" :class="{ activeItem: activeTrash }">
               <div class="d-flex align-items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -214,7 +241,9 @@
           </ul>
         </div>
         <div class="col">
-          <div class="row"><Tasks :tasks="this.tasks"></Tasks></div>
+          <div class="row">
+            <Tasks :tasks="this.tasks" :isItAll="this.isItAll"></Tasks>
+          </div>
         </div>
       </div>
     </div>
@@ -227,37 +256,111 @@
     aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true"
   >
-    <TasksEdit></TasksEdit>
+    <AddNewTask></AddNewTask>
   </div>
 </template>
 
 <script>
 import Tasks from "./Tasks.vue";
-import TasksEdit from "./TasksEdit.vue";
+import AddNewTask from "./addNewTask.vue";
 import axios from "axios";
 export default {
   components: {
     Tasks,
-    TasksEdit,
+    AddNewTask,
   },
   data() {
     return {
       tasks: [],
+      isItAll: true,
+      activeAll: false,
+      activeActive: false,
+      activeDone: false,
+      activeTags: false,
+      activeTrash: false,
     };
   },
+
   methods: {
-    async getData() {
+    async getAllTasks() {
       try {
         const response = await axios.get("http://localhost:3000/tasks");
+        // JSON responses are automatically parsed.
+        this.tasks = response.data;
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+      (this.activeAll = true),
+        (this.activeActive = false),
+        (this.activeDone = false),
+        (this.activeTags = false),
+        (this.activeTrash = false),
+        (this.isItAll = true);
+    },
+
+    async getActiveTasks() {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/tasks?is_completed=false"
+        );
         // JSON responses are automatically parsed.
         this.tasks = response.data;
       } catch (error) {
         console.log(error);
       }
+      (this.activeAll = false),
+        (this.activeActive = true),
+        (this.activeDone = false),
+        (this.activeTags = false),
+        (this.activeTrash = false),
+        (this.isItAll = false);
+    },
+
+    async getDonedTasks() {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/tasks?is_completed=true"
+        );
+        // JSON responses are automatically parsed.
+        this.tasks = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+      (this.activeAll = false),
+        (this.activeActive = false),
+        (this.activeDone = true),
+        (this.activeTags = false),
+        (this.activeTrash = false);
+      this.isItAll = false;
+    },
+    async getSelectedTag(event) {
+      let tag = event.target.innerText;
+
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/tasks?q=" + tag
+        );
+        // JSON responses are automatically parsed.
+        this.tasks = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+      (this.activeAll = false),
+        (this.activeActive = false),
+        (this.activeDone = false),
+        (this.activeTags = true),
+        (this.activeTrash = false);
     },
   },
+  mounted() {
+    this.emitter.on("newTask", (data) => {
+      this.tasks.push = data;
+      this.getAllTasks();
+    });
+  },
   created() {
-    this.getData();
+    this.getAllTasks();
   },
 };
 </script>

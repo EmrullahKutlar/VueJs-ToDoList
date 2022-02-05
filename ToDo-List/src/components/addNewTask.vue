@@ -43,20 +43,17 @@
         </div>
         <div class="form-group">
           <select class="custom-select" v-model="newTask.is_completed">
-            <option selected>Status</option>
             <option value="true">Active</option>
-            <option value="false">Disable</option>
+            <option value="false">Done</option>
           </select>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-          Close
-        </button>
         <button
           type="button"
-          @click.prevent="addNewTask"
+          @click="addNewTask"
           class="btn btn-primary"
+          data-dismiss="modal"
         >
           Save changes
         </button>
@@ -68,6 +65,9 @@
 <script>
 import Multiselect from "@vueform/multiselect";
 import axios from "axios";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
 const now = new Date();
 const today =
   now.toLocaleDateString() +
@@ -88,7 +88,7 @@ export default {
         title: "",
         description: "",
         tags: [],
-        is_completed: false,
+        is_completed: true,
       },
 
       options: [
@@ -101,10 +101,6 @@ export default {
   },
   methods: {
     addNewTask() {
-      console.log(this.newTask.title);
-      console.log(this.newTask.description);
-      console.log(this.newTask.tags);
-      console.log(this.newTask.is_completed);
       try {
         axios.post("http://localhost:3000/tasks/", {
           title: this.newTask.title,
@@ -114,7 +110,22 @@ export default {
           created_at: today,
           updated_at: today,
         });
+        toast.success("Task successfully added");
         // JSON responses are automatically parsed.
+      } catch (error) {
+        toast.error(error);
+      }
+      this.emitter.emit("newTask", this.newTask);
+      (this.newTask.title = ""),
+        (this.newTask.description = ""),
+        (this.newTask.tags = []),
+        (this.newTask.is_completed = true);
+    },
+    async getAllTasks() {
+      try {
+        const response = await axios.get("http://localhost:3000/tasks");
+        // JSON responses are automatically parsed.
+        console.log(response.data);
       } catch (error) {
         console.log(error);
       }

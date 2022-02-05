@@ -36,8 +36,17 @@ body {
 
 .list-group-item {
     border: none;
-    color: #1ea8e7;
+    color: #000000;
     background-color: #f9f9f9;
+}
+
+.list-group-item:hover {
+    color: #1ea8e7;
+}
+
+.list-group-item div span,
+.list-group-item div svg {
+    cursor: pointer;
 }
 
 .list-icons {
@@ -48,7 +57,7 @@ body {
     background-color: unset !important;
     border: none !important;
     border-color: unset !important;
-    color: #1ea8e7 !important;
+    color: #000000 !important;
     box-shadow: none !important;
     padding: 0;
 }
@@ -58,7 +67,11 @@ body {
     border-color: unset !important;
     box-shadow: none !important;
     border: none;
-    color: black;
+    color: #1ea8e7;
+}
+
+.activeItem {
+    color: #1ea8e7 !important;
 }
 
 .dropdown-item {
