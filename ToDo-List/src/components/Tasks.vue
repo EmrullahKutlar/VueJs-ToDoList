@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-use-v-if-with-v-for -->
 <template>
   <div
     v-for="(task, index) in tasks"
@@ -91,7 +92,7 @@
                 />
               </svg>
             </button>
-            <div class="dropdown-menu card-dropdown-menu">
+            <div v-if="!task.in_trash" class="dropdown-menu card-dropdown-menu">
               <button
                 type="button"
                 class="btn btn-primary dropdown-item"
@@ -101,14 +102,32 @@
               >
                 Edit
               </button>
-              <button class="dropdown-item" @click="deleteTask(task.id)">
+              <button class="dropdown-item" @click="deleteTask(task)">
                 Delete
+              </button>
+            </div>
+            <div v-if="task.in_trash" class="dropdown-menu card-dropdown-menu">
+              <button
+                type="button"
+                class="btn btn-primary dropdown-item"
+                @click="deleteTask(task)"
+              >
+                Undelete
+              </button>
+              <button class="dropdown-item" @click="deletePerma(task.id)">
+                Delete Permanently
               </button>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+  <div
+    v-if="this.tasks.length == 0"
+    class="col-12 d-flex justify-content-center mt-3"
+  >
+    <h2 style="color: #1ea8e7">Task Bulunamadı!!!</h2>
   </div>
 
   <TaskEdit :task="this.task"></TaskEdit>
@@ -118,6 +137,16 @@
 import axios from "axios";
 import TaskEdit from "./TasksEdit.vue";
 import { useToast } from "vue-toastification";
+const now = new Date();
+const today =
+  now.toLocaleDateString() +
+  "  " +
+  now.toLocaleTimeString("tr-TR", {
+    hour12: false,
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  });
 
 const toast = useToast();
 export default {
@@ -127,15 +156,17 @@ export default {
   data() {
     return {
       task: { title: "", description: "", tags: [], is_completed: "", id: "" },
+      trash: [],
     };
   },
   props: {
     tasks: Array,
-    isItAll: Boolean,
+    inAll: Boolean,
+    inTrash: Boolean,
   },
   methods: {
     changeStatus(id, iscompleted, index) {
-      if (!this.isItAll) {
+      if (!this.inAll && !this.inTrash) {
         try {
           axios.patch("http://localhost:3000/tasks/" + id, {
             is_completed: !iscompleted,
@@ -165,19 +196,43 @@ export default {
       this.task.is_completed = task.is_completed;
       this.task.id = task.id;
     },
-    deleteTask(id) {
+    deleteTask(task) {
+      console.log(task);
       try {
-        axios.delete("http://localhost:3000/tasks/" + id);
-
+        axios.patch("http://localhost:3000/tasks/" + task.id, {
+          is_completed: true,
+          in_trash: !task.in_trash,
+          updated_at: today,
+        });
         setTimeout(() => {
-          toast.success("Task Successfully Deleted");
-        }, 300);
+          // eslint-disable-next-line vue/no-mutating-props
+          this.tasks.splice(task.id, 1);
+
+          toast.success("Task Successfully Deleted Permanently");
+        }, 250);
+
         this.emitter.emit("taskDeleted");
       } catch (error) {
         toast.error(error);
       }
     },
+    deletePerma(id) {
+      try {
+        axios.delete("http://localhost:3000/tasks/" + id);
+        setTimeout(() => {
+          // eslint-disable-next-line vue/no-mutating-props
+          this.tasks.splice(id, 1);
+
+          toast.success("Task Successfully Deleted");
+        }, 250);
+
+        this.emitter.emit("taskDeletedPerma");
+      } catch (error) {
+        toast.error(error);
+      }
+    },
   },
+  created() {},
 };
 </script>
 

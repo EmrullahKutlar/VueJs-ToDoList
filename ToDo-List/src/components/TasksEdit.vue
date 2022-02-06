@@ -51,7 +51,7 @@
           </div>
           <div class="form-group">
             <!-- eslint-disable-next-line vue/no-mutating-props -->
-            <select class="custom-select">
+            <select class="custom-select" v-model="task.is_completed">
               <option value="true">Active</option>
               <option value="false">Done</option>
             </select>

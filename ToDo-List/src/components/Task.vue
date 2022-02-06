@@ -219,7 +219,7 @@
               </div>
             </li>
             <li class="list-group-item" :class="{ activeItem: activeTrash }">
-              <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center" @click="getTrashTasks">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="19"
@@ -243,7 +243,11 @@
         </div>
         <div class="col">
           <div class="row">
-            <Tasks :tasks="this.tasks" :isItAll="this.isItAll"></Tasks>
+            <Tasks
+              :tasks="this.tasks"
+              :inAll="this.inAll"
+              :inTrash="this.inTrash"
+            ></Tasks>
           </div>
         </div>
       </div>
@@ -273,7 +277,8 @@ export default {
   data() {
     return {
       tasks: [],
-      isItAll: true,
+      inAll: true,
+      inTrash: true,
       activeAll: false,
       activeActive: false,
       activeDone: false,
@@ -285,7 +290,9 @@ export default {
   methods: {
     async getAllTasks() {
       try {
-        const response = await axios.get("http://localhost:3000/tasks");
+        const response = await axios.get(
+          "http://localhost:3000/tasks?in_trash=false"
+        );
         // JSON responses are automatically parsed.
         this.tasks = response.data;
         console.log(response.data);
@@ -297,13 +304,14 @@ export default {
         (this.activeDone = false),
         (this.activeTags = false),
         (this.activeTrash = false),
-        (this.isItAll = true);
+        (this.inTrash = false),
+        (this.inAll = true);
     },
 
     async getActiveTasks() {
       try {
         const response = await axios.get(
-          "http://localhost:3000/tasks?is_completed=false"
+          "http://localhost:3000/tasks?in_trash=false&&is_completed=false"
         );
         // JSON responses are automatically parsed.
         this.tasks = response.data;
@@ -315,13 +323,14 @@ export default {
         (this.activeDone = false),
         (this.activeTags = false),
         (this.activeTrash = false),
-        (this.isItAll = false);
+        (this.inTrash = false),
+        (this.inAll = false);
     },
 
     async getDonedTasks() {
       try {
         const response = await axios.get(
-          "http://localhost:3000/tasks?is_completed=true"
+          "http://localhost:3000/tasks?in_trash=false&&is_completed=true"
         );
         // JSON responses are automatically parsed.
         this.tasks = response.data;
@@ -333,14 +342,14 @@ export default {
         (this.activeDone = true),
         (this.activeTags = false),
         (this.activeTrash = false);
-      this.isItAll = false;
+      (this.inTrash = false), (this.inAll = false);
     },
     async getSelectedTag(event) {
       let tag = event.target.innerText;
 
       try {
         const response = await axios.get(
-          "http://localhost:3000/tasks?q=" + tag
+          "http://localhost:3000/tasks?in_trash=false&&q=" + tag
         );
         // JSON responses are automatically parsed.
         this.tasks = response.data;
@@ -353,10 +362,28 @@ export default {
         (this.activeTags = true),
         (this.activeTrash = false);
     },
+    async getTrashTasks() {
+      console.log("tarasdas");
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/tasks?in_trash=true"
+        );
+        // JSON responses are automatically parsed.
+        this.tasks = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+      (this.activeAll = false),
+        (this.activeActive = false),
+        (this.activeDone = false),
+        (this.activeTags = false),
+        (this.activeTrash = true);
+      (this.inAll = false), (this.inTrash = true);
+    },
     async search(event) {
       try {
         const response = await axios.get(
-          "http://localhost:3000/tasks?q=" + event.target.value
+          "http://localhost:3000/tasks?in_trash=false&q=" + event.target.value
         );
         // JSON responses are automatically parsed.
         this.tasks = response.data;
@@ -367,8 +394,9 @@ export default {
   },
   mounted() {
     this.emitter.on("newTask", (data) => {
-      this.tasks.push = data;
       this.getAllTasks();
+
+      this.tasks.push = data;
     });
     this.emitter.on("newEdittedTask", (data) => {
       this.tasks.push = data;
@@ -377,7 +405,12 @@ export default {
     this.emitter.on("taskDeleted", () => {
       setTimeout(() => {
         this.getAllTasks();
-      }, 500);
+      }, 300);
+    });
+    this.emitter.on("taskDeletedPerma", () => {
+      setTimeout(() => {
+        this.getTrashTasks();
+      }, 300);
     });
   },
   created() {

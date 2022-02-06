@@ -43,8 +43,8 @@
         </div>
         <div class="form-group">
           <select class="custom-select" v-model="newTask.is_completed">
-            <option value="true">Active</option>
-            <option value="false">Done</option>
+            <option value="false">Active</option>
+            <option value="true">Done</option>
           </select>
         </div>
       </div>
@@ -88,7 +88,7 @@ export default {
         title: "",
         description: "",
         tags: [],
-        is_completed: true,
+        is_completed: false,
       },
 
       options: [
@@ -107,28 +107,23 @@ export default {
           description: this.newTask.description,
           tags: this.newTask.tags,
           is_completed: this.newTask.is_completed,
+          in_trash: false,
           created_at: today,
           updated_at: today,
         });
         toast.success("Task successfully added");
+        this.emitter.emit("newTask", this.newTask);
         // JSON responses are automatically parsed.
       } catch (error) {
         toast.error(error);
       }
-      this.emitter.emit("newTask", this.newTask);
-      (this.newTask.title = ""),
-        (this.newTask.description = ""),
-        (this.newTask.tags = []),
-        (this.newTask.is_completed = true);
-    },
-    async getAllTasks() {
-      try {
-        const response = await axios.get("http://localhost:3000/tasks");
-        // JSON responses are automatically parsed.
-        console.log(response.data);
-      } catch (error) {
-        console.log(error);
-      }
+
+      setTimeout(() => {
+        (this.newTask.title = ""),
+          (this.newTask.description = ""),
+          (this.newTask.tags = []),
+          (this.newTask.is_completed = false);
+      }, 1000);
     },
   },
 };
