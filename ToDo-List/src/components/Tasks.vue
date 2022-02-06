@@ -173,7 +173,7 @@ export default {
           });
           // JSON responses are automatically parsed.
         } catch (error) {
-          console.log(error);
+          toast.error(error);
         }
         setTimeout(() => {
           // eslint-disable-next-line vue/no-mutating-props
@@ -186,7 +186,7 @@ export default {
           });
           // JSON responses are automatically parsed.
         } catch (error) {
-          console.log(error);
+          toast.error(error);
         }
       }
     },
@@ -197,7 +197,6 @@ export default {
       this.task.id = task.id;
     },
     deleteTask(task) {
-      console.log(task);
       try {
         axios.patch("http://localhost:3000/tasks/" + task.id, {
           is_completed: true,

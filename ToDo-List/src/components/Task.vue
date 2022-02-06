@@ -269,6 +269,9 @@
 import Tasks from "./Tasks.vue";
 import AddNewTask from "./addNewTask.vue";
 import axios from "axios";
+import { useToast } from "vue-toastification";
+const toast = useToast();
+
 export default {
   components: {
     Tasks,
@@ -295,9 +298,8 @@ export default {
         );
         // JSON responses are automatically parsed.
         this.tasks = response.data;
-        console.log(response.data);
       } catch (error) {
-        console.log(error);
+        toast.error(error);
       }
       (this.activeAll = true),
         (this.activeActive = false),
@@ -316,7 +318,7 @@ export default {
         // JSON responses are automatically parsed.
         this.tasks = response.data;
       } catch (error) {
-        console.log(error);
+        toast.error(error);
       }
       (this.activeAll = false),
         (this.activeActive = true),
@@ -335,7 +337,7 @@ export default {
         // JSON responses are automatically parsed.
         this.tasks = response.data;
       } catch (error) {
-        console.log(error);
+        toast.error(error);
       }
       (this.activeAll = false),
         (this.activeActive = false),
@@ -354,7 +356,7 @@ export default {
         // JSON responses are automatically parsed.
         this.tasks = response.data;
       } catch (error) {
-        console.log(error);
+        toast.error(error);
       }
       (this.activeAll = false),
         (this.activeActive = false),
@@ -363,7 +365,6 @@ export default {
         (this.activeTrash = false);
     },
     async getTrashTasks() {
-      console.log("tarasdas");
       try {
         const response = await axios.get(
           "http://localhost:3000/tasks?in_trash=true"
@@ -371,7 +372,7 @@ export default {
         // JSON responses are automatically parsed.
         this.tasks = response.data;
       } catch (error) {
-        console.log(error);
+        toast.error(error);
       }
       (this.activeAll = false),
         (this.activeActive = false),
@@ -388,7 +389,7 @@ export default {
         // JSON responses are automatically parsed.
         this.tasks = response.data;
       } catch (error) {
-        console.log(error);
+        toast.error(error);
       }
     },
   },
