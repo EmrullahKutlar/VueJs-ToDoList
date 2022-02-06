@@ -79,15 +79,6 @@ import { useToast } from "vue-toastification";
 
 const toast = useToast();
 const now = new Date();
-const today =
-  now.toLocaleDateString() +
-  "  " +
-  now.toLocaleTimeString("tr-TR", {
-    hour12: false,
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-  });
 
 export default {
   props: {
@@ -104,6 +95,7 @@ export default {
         { value: { urgent: "Urgent" }, label: "Urgent" },
         { value: { list: "List" }, label: "List" },
       ],
+      today: "",
     };
   },
   methods: {
@@ -114,7 +106,7 @@ export default {
           description: task.description,
           tags: task.tags,
           is_completed: !task.is_completed,
-          updated_at: today,
+          updated_at: this.today,
         });
         toast.success("Task Successfully Edited");
         this.emitter.emit("newEdittedTask", this.task);
@@ -122,6 +114,17 @@ export default {
         toast.error(error);
       }
     },
+  },
+  created() {
+    this.today =
+      now.toLocaleDateString() +
+      "  " +
+      now.toLocaleTimeString("tr-TR", {
+        hour12: false,
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+      });
   },
 };
 </script>

@@ -69,15 +69,7 @@ import { useToast } from "vue-toastification";
 
 const toast = useToast();
 const now = new Date();
-const today =
-  now.toLocaleDateString() +
-  "  " +
-  now.toLocaleTimeString("tr-TR", {
-    hour12: false,
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-  });
+
 export default {
   components: {
     Multiselect,
@@ -90,6 +82,7 @@ export default {
         tags: [],
         is_completed: false,
       },
+      today: "",
 
       options: [
         { value: { project: "Project" }, label: "Project" },
@@ -108,8 +101,8 @@ export default {
           tags: this.newTask.tags,
           is_completed: this.newTask.is_completed,
           in_trash: false,
-          created_at: today,
-          updated_at: today,
+          created_at: this.today,
+          updated_at: this.today,
         });
         toast.success("Task successfully added");
         this.emitter.emit("newTask", this.newTask);
@@ -125,6 +118,17 @@ export default {
           (this.newTask.is_completed = false);
       }, 1000);
     },
+  },
+  created() {
+    this.today =
+      now.toLocaleDateString() +
+      "  " +
+      now.toLocaleTimeString("tr-TR", {
+        hour12: false,
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+      });
   },
 };
 </script>

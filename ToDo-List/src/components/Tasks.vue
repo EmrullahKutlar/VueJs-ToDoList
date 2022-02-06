@@ -206,8 +206,9 @@ export default {
         setTimeout(() => {
           // eslint-disable-next-line vue/no-mutating-props
           this.tasks.splice(task.id, 1);
-
-          toast.success("Task Successfully Deleted Permanently");
+          if (task.in_trash) {
+            toast.success("Task Successfully Undeleted ");
+          } else toast.success("Task Successfully Deleted ");
         }, 250);
 
         this.emitter.emit("taskDeleted");
@@ -222,7 +223,7 @@ export default {
           // eslint-disable-next-line vue/no-mutating-props
           this.tasks.splice(id, 1);
 
-          toast.success("Task Successfully Deleted");
+          toast.success("Task Successfully Deleted Permanently");
         }, 250);
 
         this.emitter.emit("taskDeletedPerma");

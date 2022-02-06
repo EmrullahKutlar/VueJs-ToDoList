@@ -31,13 +31,13 @@
           "project": "Project"
         },
         {
-          "urgent": "Urgent"
+          "personal": "Personal"
         }
       ],
       "is_completed": false,
       "in_trash": false,
       "created_at": "06.02.2022  17:01:04",
-      "updated_at": "06.02.2022  17:01:04",
+      "updated_at": "06.02.2022  17:17:46",
       "id": 2
     },
     {
@@ -48,10 +48,10 @@
           "project": "Project"
         }
       ],
-      "is_completed": true,
+      "is_completed": false,
       "in_trash": false,
       "created_at": "06.02.2022  17:02:43",
-      "updated_at": "06.02.2022  17:02:43",
+      "updated_at": "06.02.2022  17:17:46",
       "id": 3
     },
     {
@@ -65,7 +65,7 @@
       "is_completed": false,
       "in_trash": false,
       "created_at": "06.02.2022  17:02:43",
-      "updated_at": "06.02.2022  17:02:43",
+      "updated_at": "06.02.2022  17:20:06",
       "id": 4
     },
     {
@@ -80,9 +80,9 @@
         }
       ],
       "is_completed": true,
-      "in_trash": true,
+      "in_trash": false,
       "created_at": "06.02.2022  17:02:43",
-      "updated_at": "06.02.2022  17:07:08",
+      "updated_at": "06.02.2022  17:24:09",
       "id": 5
     }
   ]
