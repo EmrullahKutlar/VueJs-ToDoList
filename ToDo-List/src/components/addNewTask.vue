@@ -106,7 +106,7 @@ export default {
           title: this.newTask.title,
           description: this.newTask.description,
           tags: this.newTask.tags,
-          is_completed: !this.newTask.is_completed,
+          is_completed: this.newTask.is_completed,
           created_at: today,
           updated_at: today,
         });

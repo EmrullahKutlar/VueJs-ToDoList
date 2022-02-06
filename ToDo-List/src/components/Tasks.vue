@@ -97,24 +97,36 @@
                 class="btn btn-primary dropdown-item"
                 data-toggle="modal"
                 data-target="#exampleModal"
+                @click="edit(task)"
               >
                 Edit
               </button>
-              <a class="dropdown-item" href="#">Delete</a>
+              <button class="dropdown-item" @click="deleteTask(task.id)">
+                Delete
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <TaskEdit :task="this.task"></TaskEdit>
 </template>
 
 <script>
 import axios from "axios";
+import TaskEdit from "./TasksEdit.vue";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
 export default {
+  components: {
+    TaskEdit,
+  },
   data() {
     return {
-      check: false,
+      task: { title: "", description: "", tags: [], is_completed: "", id: "" },
     };
   },
   props: {
@@ -145,6 +157,24 @@ export default {
         } catch (error) {
           console.log(error);
         }
+      }
+    },
+    edit(task) {
+      this.task.title = task.title;
+      this.task.description = task.description;
+      this.task.is_completed = task.is_completed;
+      this.task.id = task.id;
+    },
+    deleteTask(id) {
+      try {
+        axios.delete("http://localhost:3000/tasks/" + id);
+
+        setTimeout(() => {
+          toast.success("Task Successfully Deleted");
+        }, 300);
+        this.emitter.emit("taskDeleted");
+      } catch (error) {
+        toast.error(error);
       }
     },
   },

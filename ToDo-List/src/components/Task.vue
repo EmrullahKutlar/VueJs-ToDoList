@@ -7,8 +7,9 @@
           <input
             class="form-control mr-sm-2"
             type="search"
-            placeholder="Search"
+            placeholder="Search (Press Enter)"
             aria-label="Search"
+            @keydown.enter="search($event)"
           />
         </div>
         <div class="col-6 col-md-5 d-flex justify-content-end">
@@ -352,11 +353,31 @@ export default {
         (this.activeTags = true),
         (this.activeTrash = false);
     },
+    async search(event) {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/tasks?q=" + event.target.value
+        );
+        // JSON responses are automatically parsed.
+        this.tasks = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
   mounted() {
     this.emitter.on("newTask", (data) => {
       this.tasks.push = data;
       this.getAllTasks();
+    });
+    this.emitter.on("newEdittedTask", (data) => {
+      this.tasks.push = data;
+      this.getAllTasks();
+    });
+    this.emitter.on("taskDeleted", () => {
+      setTimeout(() => {
+        this.getAllTasks();
+      }, 500);
     });
   },
   created() {
