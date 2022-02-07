@@ -84,7 +84,7 @@
                 width="20"
                 height="20"
                 fill="currentColor"
-                class="bi bi-three-dots"
+                class="bi bi-three-dots activeItem"
                 viewBox="0 0 16 16"
               >
                 <path
