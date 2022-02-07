@@ -78,7 +78,6 @@ import axios from "axios";
 import { useToast } from "vue-toastification";
 
 const toast = useToast();
-const now = new Date();
 
 export default {
   props: {
@@ -95,18 +94,27 @@ export default {
         { value: { urgent: "Urgent" }, label: "Urgent" },
         { value: { list: "List" }, label: "List" },
       ],
-      today: "",
     };
   },
   methods: {
     editedTask(task) {
+      var now = new Date();
+      var today =
+        now.toLocaleDateString() +
+        "  " +
+        now.toLocaleTimeString("tr-TR", {
+          hour12: false,
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+        });
       try {
         axios.patch("http://localhost:3000/tasks/" + task.id, {
           title: task.title,
           description: task.description,
           tags: task.tags,
           is_completed: !task.is_completed,
-          updated_at: this.today,
+          updated_at: today,
         });
         toast.success("Task Successfully Edited");
         this.emitter.emit("newEdittedTask", this.task);
@@ -115,17 +123,7 @@ export default {
       }
     },
   },
-  created() {
-    this.today =
-      now.toLocaleDateString() +
-      "  " +
-      now.toLocaleTimeString("tr-TR", {
-        hour12: false,
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-      });
-  },
+  created() {},
 };
 </script>
 

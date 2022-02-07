@@ -68,7 +68,6 @@ import axios from "axios";
 import { useToast } from "vue-toastification";
 
 const toast = useToast();
-const now = new Date();
 
 export default {
   components: {
@@ -82,7 +81,6 @@ export default {
         tags: [],
         is_completed: false,
       },
-      today: "",
 
       options: [
         { value: { project: "Project" }, label: "Project" },
@@ -94,6 +92,16 @@ export default {
   },
   methods: {
     addNewTask() {
+      var now = new Date();
+      var today =
+        now.toLocaleDateString() +
+        "  " +
+        now.toLocaleTimeString("tr-TR", {
+          hour12: false,
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+        });
       try {
         axios.post("http://localhost:3000/tasks/", {
           title: this.newTask.title,
@@ -101,8 +109,8 @@ export default {
           tags: this.newTask.tags,
           is_completed: this.newTask.is_completed,
           in_trash: false,
-          created_at: this.today,
-          updated_at: this.today,
+          created_at: today,
+          updated_at: today,
         });
         toast.success("Task successfully added");
         this.emitter.emit("newTask", this.newTask);
@@ -119,17 +127,7 @@ export default {
       }, 1000);
     },
   },
-  created() {
-    this.today =
-      now.toLocaleDateString() +
-      "  " +
-      now.toLocaleTimeString("tr-TR", {
-        hour12: false,
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-      });
-  },
+  created() {},
 };
 </script>
 

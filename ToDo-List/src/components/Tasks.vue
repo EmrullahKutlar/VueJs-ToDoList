@@ -137,16 +137,6 @@
 import axios from "axios";
 import TaskEdit from "./TasksEdit.vue";
 import { useToast } from "vue-toastification";
-const now = new Date();
-const today =
-  now.toLocaleDateString() +
-  "  " +
-  now.toLocaleTimeString("tr-TR", {
-    hour12: false,
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-  });
 
 const toast = useToast();
 export default {
@@ -197,6 +187,17 @@ export default {
       this.task.id = task.id;
     },
     deleteTask(task) {
+      var now = new Date();
+      var today =
+        now.toLocaleDateString() +
+        "  " +
+        now.toLocaleTimeString("tr-TR", {
+          hour12: false,
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+        });
+
       try {
         axios.patch("http://localhost:3000/tasks/" + task.id, {
           is_completed: true,
