@@ -395,11 +395,11 @@ export default {
   },
   mounted() {
     this.emitter.on("newTask", (data) => {
-      this.tasks.push = data;
+      this.tasks.push(data);
       this.getAllTasks();
     });
     this.emitter.on("newEdittedTask", (data) => {
-      this.tasks.push = data;
+      this.tasks.push(data);
       this.getAllTasks();
     });
     this.emitter.on("taskDeleted", () => {
