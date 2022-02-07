@@ -233,7 +233,6 @@ export default {
       }
     },
   },
-  created() {},
 };
 </script>
 
