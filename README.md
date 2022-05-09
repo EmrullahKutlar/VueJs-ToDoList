@@ -4,5 +4,5 @@
 ### (only FakeBack-end folder) go to terminal
 #### write on terminal "npm run start" after that
 #### Open the ToDo-List folder with VsCode (only ToDo-List folder) and go to terminal 
-#### write on terminal "npm instal --save" after that
+#### write on terminal "npm install --save" after that
 #### write "npm run serve"
